@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include sample.setup_clickhouse"
+      ansible.builtin.include_role:
+        name: "sample.setup_clickhouse"

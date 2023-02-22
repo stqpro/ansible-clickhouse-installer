@@ -1,0 +1,2 @@
+[clickhouse]
+instance ansible_host=instance zookeeper_id=1

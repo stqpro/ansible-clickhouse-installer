@@ -1,0 +1,47 @@
+---
+
+- name: Add Clickhouse repo apt-key
+  ansible.builtin.apt_key:
+    id: "{{ clickhouse_apt_key_id }}"
+    url: "{{ clickhouse_apt_key_url }}"
+  become: true
+
+- name: Add Clickhouse repo
+  ansible.builtin.apt_repository:
+    repo: "{{ clickhouse_apt_repo }}"
+  become: true
+
+- name: Install Clickhouse packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+  with_items:
+    - "{{ clickhouse_packages }}"
+  become: true
+
+- name: Create Clickhouse config directory
+  ansible.builtin.file:
+    path: "{{ clickhouse_cfg_dir }}"
+    state: directory
+    owner: "{{ clickhouse_user }}"
+    group: "{{ clickhouse_group }}"
+    mode: "ug=rwx,o-rwx"
+  become: true
+
+- name: Create Clickhouse configs
+  ansible.builtin.template:
+    src: "{{ item }}.xml.j2"
+    dest: "{{ clickhouse_cfg_dir }}/{{ item }}.xml"
+    owner: "{{ clickhouse_user }}"
+    group: "{{ clickhouse_group }}"
+    mode: "ug=rwx,o-rwx"
+  become: true
+  loop:
+    - clickhouse_macros
+    - clickhouse_remote_servers
+    - clickhouse_zookeeper
+    - clickhouse_config
+  notify:
+    - Restart Clickhouse

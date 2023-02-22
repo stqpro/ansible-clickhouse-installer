@@ -1,0 +1,46 @@
+---
+
+- name: Install Zookeeper packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+  become: true
+  with_items:
+    - "{{ zookeeper_packages }}"
+
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+    mode: "u=rw,g=r,o=r"
+  become: true
+  with_items:
+    - "{{ zookeeper_data_dir }}"
+    - "{{ zookeeper_log_dir }}"
+
+- name: Create zoo.cfg from template
+  ansible.builtin.template:
+    src: zoo.cfg.j2
+    dest: "{{ zookeeper_cfg_dir }}/zoo.cfg"
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+    mode: "u=rw,g=r,o=r"
+  become: true
+
+- name: Create myid file
+  ansible.builtin.template:
+    src: myid.j2
+    dest: "{{ zookeeper_data_dir }}/myid"
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+    mode: "u=rw,g=r,o=r"
+  become: true
+  notify:
+    - Restart Zookeeper
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

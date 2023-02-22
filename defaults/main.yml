@@ -1,0 +1,35 @@
+---
+
+zookeeper_packages:
+  - zookeeperd
+  - zookeeper
+  - default-jdk
+  - gnupg
+
+zookeeper_data_dir: /var/lib/zookeeper
+zookeeper_log_dir: /var/log/zookeeper
+zookeeper_data_log_dir: /var/log/zookeeper
+zookeeper_cfg_dir: /etc/zookeeper/conf
+
+zookeeper_user: zookeeper
+zookeeper_group: zookeeper
+zookeeper_id: 1
+
+zookeeper_leader_port: 2888
+zookeeper_election_port: 3888
+zookeeper_client_port: 2181
+
+clickhouse_apt_key_id: E0C56BD4
+clickhouse_apt_key_url: http://repo.yandex.ru/clickhouse/CLICKHOUSE-KEY.GPG
+clickhouse_apt_repo: "deb http://repo.yandex.ru/clickhouse/deb/stable/ main/"
+
+clickhouse_packages:
+  - ca-certificates
+  - clickhouse-client
+  - clickhouse-server-common
+  - clickhouse-server-base
+
+clickhouse_cfg_dir: /etc/clickhouse-server/config.d
+
+clickhouse_user: clickhouse
+clickhouse_group: clickhouse

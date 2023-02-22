@@ -1,0 +1,7 @@
+---
+
+- name: Set up Zookeeper
+  ansible.builtin.include_tasks: zookeeper.yml
+
+- name: Set up Clickhouse
+  ansible.builtin.include_tasks: clickhouse.yml

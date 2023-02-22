@@ -1,0 +1,13 @@
+---
+
+- name: Restart Zookeeper
+  ansible.builtin.command: /usr/share/zookeeper/bin/zkServer.sh restart
+  become: true
+
+- name: Restart Clickhouse
+  # ansible.builtin.command: service clickhouse-server restart
+  ansible.builtin.systemd:
+    name: clickhouse-server
+    state: restarted
+    enabled: true
+  become: true
