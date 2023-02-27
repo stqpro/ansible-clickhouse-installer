@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: clickhouse
   author: stqpro
   namespace: sample
   description: Install Clickhouse with Zookeeper

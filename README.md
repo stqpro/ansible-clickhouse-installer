@@ -16,7 +16,7 @@ Playbook can be similar to this:
     - name: Set up Clickhouse
     - hosts: clickhouse
       roles:
-         - setup_clickhouse
+        - ansible-clickhouse-installer
 
 Specify variable `zookeeper_id` to every host in inventory.
 
